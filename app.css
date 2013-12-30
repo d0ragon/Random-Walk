@@ -14,7 +14,7 @@ svg {
   background: #000;
 }
 
-polyline {
+polyline, path {
   fill: none;
   stroke: #fff;
   stroke-width: 1;
