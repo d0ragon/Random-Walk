@@ -10,14 +10,19 @@ function randomsign ()
 
 $(function ()
 {
-  var $polyline = $('svg polyline'),
-  points_attr = '';
-  function update_points (newpoint)
+  var $path = $('svg path'),
+  dattr = '',
+  currentpoint = [];
+  function update_points (newpoint, action)
   {
-    points_attr += ' ' + newpoint[0] + ',' + newpoint[1];
-    $polyline.attr('points', points_attr);
+    dattr += action + newpoint[0] + ' ' + newpoint[1] + ' ';
+    $path.attr('d', dattr);
+    currentpoint = newpoint;
   }
-
+  function clear_points ()
+  {
+    dattr = 'M' + currentpoint[0] + ' ' + currentpoint[1] + ' ';
+  }
 
   var $w = $(window).width(),
   $h = $(window).height();
@@ -28,32 +33,87 @@ $(function ()
     [-1,  0],           [+1,  0],
     [-1, +1], [ 0, +1], [+1, +1]
   ];
-  /*
-  035
-  247
-  pd.splice(0, 1);
-  pd.splice(3, 1);
-  pd.splice(5, 1);
-  console.log(pd);
-  */
 
   var startpoint = [randomint(0, $w), randomint(0, $h)];
+  update_points(startpoint, 'M');
 
-  update_points(startpoint);
+  var timerid = 0,
+  multiplier = [1, 1];
 
 
   (function add_point (prevpoint)
   {
-    var multiplier = 5;
 
     var i = randomint(0, pd.length - 1);
-    var newpoint = [prevpoint[0] + pd[i][0] * multiplier, prevpoint[1] + pd[i][1] * multiplier];
+    var newpoint = [prevpoint[0] + pd[i][0] * multiplier[0], prevpoint[1] + pd[i][1] * multiplier[1]];
 
-    update_points(newpoint);
+    var action = 'L';
 
-    var timerid = setTimeout(add_point, 4, newpoint);
+    if (newpoint[0] < 0)
+    {
+      action = 'M';
+      newpoint[0] += $w + 1;
+    }
+    else if (newpoint[0] > $w)
+    {
+      action = 'M';
+      newpoint[0] -= $w + 1;
+    }
+
+    if (newpoint[1] < 0)
+    {
+      action = 'M';
+      newpoint[1] += $h + 1;
+    }
+    else if (newpoint[1] > $h)
+    {
+      action = 'M';
+      newpoint[1] -= $h + 1;
+    }
+
+    update_points(newpoint, action);
+
+    timerid = setTimeout(add_point, 5, newpoint);
 
   })(startpoint);
+
+
+
+
+
+
+
+
+
+
+
+  $('#actions').on('keyup change', 'input', function ()
+  {
+    var self = $(this),
+    val = +self.val(),
+    c = self.data('coordinate');
+    if (val > 0 && (c == 'x' || c == 'y'))
+    {
+      var i = c == 'x' ? 0 : 1;
+      multiplier[i] = val;
+    }
+  })
+  .on('click', '#clearcontainer div', function ()
+  {
+    clear_points();
+  });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

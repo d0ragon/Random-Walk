@@ -5,6 +5,7 @@ html, body {
 }
 
 body {
+  font-size: 12px;
 }
 
 svg {
@@ -19,5 +20,59 @@ polyline, path {
   stroke: #fff;
   stroke-width: 1;
 }
+
+
+
+#actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: 1px solid #fff;
+  padding: 5px 8px;
+  background: #333;
+}
+
+#actions label {
+  display: block;
+  color: #fff;
+  font-family: arial;
+  text-align: right;
+  font-size: 14px;
+}
+
+#actions label:first-child {
+  margin-bottom: 5px;
+}
+
+#actions input {
+  width: 35px;
+}
+
+
+#clearcontainer {
+  margin: 13px 0px 3px;
+}
+
+#clearcontainer div {
+  background: #eee;
+  color: #000;
+  cursor: pointer;
+  text-align: center;
+  padding: 3px 7px;
+  font-size: 14px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
