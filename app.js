@@ -12,7 +12,9 @@ $(function ()
 {
   var $path = $('svg path'),
   dattr = '',
-  currentpoint = [];
+  currentpoint = [],
+  totali = 0,
+  $steps = $('#steps div');
   function update_points (newpoint, action)
   {
     dattr += action + newpoint[0] + ' ' + newpoint[1] + ' ';
@@ -22,6 +24,7 @@ $(function ()
   function clear_points ()
   {
     dattr = 'M' + currentpoint[0] + ' ' + currentpoint[1] + ' ';
+    totali = 0;
   }
 
   var $w = $(window).width(),
@@ -43,6 +46,7 @@ $(function ()
 
   (function add_point (prevpoint)
   {
+    $steps[0].innerHTML = totali ++;
 
     var i = randomint(0, pd.length - 1);
     var newpoint = [prevpoint[0] + pd[i][0] * multiplier[0], prevpoint[1] + pd[i][1] * multiplier[1]];
