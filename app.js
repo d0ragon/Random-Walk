@@ -99,6 +99,7 @@ $(function ()
     timerid = setTimeout(add_point, 5, newpoint);
 
   })(startpoint);
+  //iasnad
 
 
 
