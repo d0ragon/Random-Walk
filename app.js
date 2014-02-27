@@ -45,7 +45,7 @@ $(function ()
   var currentpoint = [],
   totali = 0,
   timerid = 0,
-  multiplier = [1, 1],
+  multiplier = [3, 3],
   $steps = $('#steps div');
 
   // possible directions
@@ -134,12 +134,8 @@ $(function ()
 
 
 
-
-
-
-
-
-
 });
+
+
 
 
