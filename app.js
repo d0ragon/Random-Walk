@@ -10,25 +10,43 @@ function randomsign ()
 
 $(function ()
 {
-  var $path = $('svg path'),
-  dattr = '',
-  currentpoint = [],
-  totali = 0,
-  $steps = $('#steps div');
-  function update_points (newpoint, action)
+
+  function update_points (newpoint, overflow)
   {
-    dattr += action + newpoint[0] + ' ' + newpoint[1] + ' ';
-    $path.attr('d', dattr);
+    ctx[overflow ? 'moveTo' : 'lineTo'](newpoint[0], newpoint[1]);
+    ctx.stroke();
     currentpoint = newpoint;
   }
+
   function clear_points ()
   {
-    dattr = 'M' + currentpoint[0] + ' ' + currentpoint[1] + ' ';
+    ctx.closePath();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
     totali = 0;
   }
 
+
   var $w = $(window).width(),
   $h = $(window).height();
+
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext('2d');
+  canvas.width = $w;
+  canvas.height = $h;
+
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 1;
+  ctx.lineCap = 'round'; // butt, square
+  ctx.lineJoin = 'round'; //bevel, miter
+  ctx.beginPath();
+
+
+  var currentpoint = [],
+  totali = 0,
+  timerid = 0,
+  multiplier = [1, 1],
+  $steps = $('#steps div');
 
   // possible directions
   var pd = [
@@ -38,10 +56,7 @@ $(function ()
   ];
 
   var startpoint = [randomint(0, $w), randomint(0, $h)];
-  update_points(startpoint, 'M');
-
-  var timerid = 0,
-  multiplier = [1, 1];
+  update_points(startpoint, true);
 
 
   (function add_point (prevpoint)
@@ -51,31 +66,35 @@ $(function ()
     var i = randomint(0, pd.length - 1);
     var newpoint = [prevpoint[0] + pd[i][0] * multiplier[0], prevpoint[1] + pd[i][1] * multiplier[1]];
 
-    var action = 'L';
+    var overflow = false;
 
+    // left overflow
     if (newpoint[0] < 0)
     {
-      action = 'M';
+      overflow = true;
       newpoint[0] += $w + 1;
     }
+    // right overflow
     else if (newpoint[0] > $w)
     {
-      action = 'M';
+      overflow = true;
       newpoint[0] -= $w + 1;
     }
 
+    // top overflow
     if (newpoint[1] < 0)
     {
-      action = 'M';
+      overflow = true;
       newpoint[1] += $h + 1;
     }
+    // bottom overflow
     else if (newpoint[1] > $h)
     {
-      action = 'M';
+      overflow = true;
       newpoint[1] -= $h + 1;
     }
 
-    update_points(newpoint, action);
+    update_points(newpoint, overflow);
 
     timerid = setTimeout(add_point, 5, newpoint);
 
