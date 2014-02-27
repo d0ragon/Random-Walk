@@ -35,7 +35,7 @@ $(function ()
   canvas.width = $w;
   canvas.height = $h;
 
-  ctx.strokeStyle = '#000';
+  ctx.strokeStyle = '#fff';
   ctx.lineWidth = 1;
   ctx.lineCap = 'round'; // butt, square
   ctx.lineJoin = 'round'; //bevel, miter
