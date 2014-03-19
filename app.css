@@ -36,8 +36,17 @@ canvas {
   margin-bottom: 5px;
 }
 
-#actions input {
+#actions input[type="number"] {
   width: 35px;
+}
+
+#actions input[type="checkbox"] {
+  margin: 0px;
+  vertical-align: middle;
+}
+
+#quantity-label, #colors-label {
+  margin-top: 5px;
 }
 
 
