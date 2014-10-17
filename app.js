@@ -10,11 +10,14 @@ function randomwalk (options)
     return [this.randomint(0, this.$w), this.randomint(0, this.$h)];
   }
 
+/*
   this.colors = [
     '#0000ff', '#00ff00', '#ff0000',
     '#ffff00', '#ff00ff', '#00ffff',
     '#fff'
   ];
+*/
+  this.maxhex = Math.pow(16, 6) - 1;
 
   // possible directions
   this.pd = [
@@ -96,7 +99,13 @@ function randomwalk (options)
     if (inst.use_colors)
     {
       inst.ctx.closePath();
-      inst.ctx.strokeStyle = inst.colors[inst.randomint(0, inst.colors.length - 1)];
+    //inst.ctx.strokeStyle = inst.colors[inst.randomint(0, inst.colors.length - 1)];
+      var hex = inst.randomint(0, inst.maxhex).toString(16);
+      if (hex.length < 6)
+      {
+        hex = Array(7 - hex.length).join('0') + hex;
+      }
+      inst.ctx.strokeStyle = '#' +hex;
       inst.ctx.beginPath();
     }
     inst.timerid = setTimeout(inst.update_points, 5, inst, newpoints);
